@@ -2,10 +2,10 @@
   <div class='ui centered card'>
     <div class="content" v-show="!isEditing">
       <div class='header'>
-          {{ todo.title }}
+          {{ todo.userId }}
       </div>
       <div class='meta'>
-          {{ todo.project }}
+          {{ todo.title }}
       </div>
       <div class='extra content'>
           <span class='right floated edit icon' v-on:click="showForm">
@@ -19,12 +19,12 @@
     <div class="content" v-show="isEditing">
       <div class='ui form'>
         <div class='field'>
-          <label>Title</label>
-          <input type='text' v-model="todo.title" >
+          <label>UserId</label>
+          <input type='text' v-model="todo.userId" >
         </div>
         <div class='field'>
           <label>Project</label>
-          <input type='text' v-model="todo.project" >
+          <input type='text' v-model="todo.title" >
         </div>
         <div class='ui two button attached buttons'>
           <button class='ui basic blue button' v-on:click="hideForm">
@@ -33,10 +33,10 @@
         </div>
       </div>
     </div>
-    <div class='ui bottom attached green basic button' v-show="!isEditing &&todo.done" disabled>
+    <div class='ui bottom attached green basic button' v-show="!isEditing &&todo.completed" disabled>
         Completed
     </div>
-    <div class='ui bottom attached red basic button' v-show="!isEditing && !todo.done">
+    <div class='ui bottom attached red basic button' v-show="!isEditing && !todo.completed">
         Pending
     </div>
   </div>

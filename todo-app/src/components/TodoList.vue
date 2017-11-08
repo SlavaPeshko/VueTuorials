@@ -1,13 +1,14 @@
 <template>
   <div>
-    <p>Completed Tasks: {{todos.filter(todo => {return todo.done === true}).length}}</p>
-    <p>Pending Tasks: {{todos.filter(todo => {return todo.done === false}).length}}</p>
+    <p>Completed Tasks: {{todos.filter(todo => {return todo.completed === true}).length}}</p>
+    <p>Pending Tasks: {{todos.filter(todo => {return todo.completed === false}).length}}</p>
     <todo  v-on:delete-todo="deleteTodo" v-on:complete-todo="completeTodo" v-for="(todo, index) in todos"  :key="index" v-bind:todo="todo"></todo>
   </div>
 </template>
 
 <script type = "text/javascript" >
 
+import axios from 'axios';
 import Todo from './Todo';
 
 export default {
@@ -18,8 +19,13 @@ export default {
   methods: {
     deleteTodo(todo) {
       const todoIndex = this.todos.indexOf(todo);
+      // const todoIndex = this.todos.indexOf(todo);
       this.todos.splice(todoIndex, 1);
+      axios.delete(`https://jsonplaceholder.typicode.com/todos/${todoIndex + 1}`)
+      .then()
+      .catch(e => this.errors.push(e));
     },
+
     completeTodo(todo) {
       const todoIndex = this.todos.indexOf(todo);
       this.todos[todoIndex].done = true;

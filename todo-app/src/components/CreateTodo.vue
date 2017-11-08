@@ -7,12 +7,12 @@
       <div class='content'>
         <div class='ui form'>
           <div class='field'>
-            <label>Title</label>
-            <input v-model="titleText" type='text' ref='title' defaultValue="">
+            <label>UserId</label>
+            <input v-model="userIdText" type='text' ref='title' defaultValue="">
           </div>
           <div class='field'>
             <label>Project</label>
-            <input v-model="projectText" type='text' ref='project' defaultValue="">
+            <input v-model="completedText" type='text' ref='completed' defaultValue="">
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -32,8 +32,8 @@
 export default {
   data() {
     return {
-      titleText: '',
-      projectText: '',
+      userIdText: '',
+      completedText: '',
       isCreating: false,
     };
   },
@@ -45,16 +45,16 @@ export default {
       this.isCreating = false;
     },
     sendForm() {
-      if (this.titleText.length > 0 && this.projectText.length > 0) {
-        const title = this.titleText;
-        const project = this.projectText;
+      if (this.userIdText.length > 0 && this.completedText.length > 0) {
+        const userId = this.userIdText;
+        const title = this.completedText;
         this.$emit('add-todo', {
+          userId,
           title,
-          project,
           done: false,
         });
-        this.titleText = '';
-        this.projectText = '';
+        this.userIdText = '';
+        this.completedText = '';
       }
       this.isCreating = false;
     },
