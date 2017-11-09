@@ -1,44 +1,49 @@
-const axios = require('axios');
+import axios from 'axios';
 
-class API {
+const url = 'https://jsonplaceholder.typicode.com/todos';
 
-  constructor({ url }) {
-    this.url = url;
-    this.endpoints = {};
-  }
-  /**
-   * Create and store a single entity's endpoints
-   * @param {A entity Object} entity
-   */
-  createEntity(entity) {
-    this.endpoints[entity.name] = this.createBasicCRUDEndpoints(entity);
-  }
+const getAllTodo = function (url, request) {
+  return axios.get(url, request)
+  .then(response => Promise.resolve(response.body.data))
+  .catch(error => Promise.reject(error));
+};
 
-  createEntities(arrayOfEntity) {
-    arrayOfEntity.forEach(this.createEntity.bind(this));
-  }
-  /**
-   * Create the basic endpoints handlers for CRUD operations
-   * @param {A entity Object} entity
-   */
-  createBasicCRUDEndpoints({ name }) {
-    const endpoints = {};
+const postTodo = function (url, request) {
+  return axios.post(url, request)
+  .then(response => Promise.resolve(response))
+  .catch(error => Promise.reject(error));
+};
 
-    const resourceURL = `${this.url}/${name}`;
+const deleteTodo = function (url, request) {
+  return axios.delete(url, request)
+  .then(response => Promise.resolve(response))
+  .catch(error => Promise.reject(error));
+};
 
-    endpoints.getAll = ({ query } = {}) => axios.get(resourceURL, { params: { query } });
+const putTodo = function (url, request) {
+  return axios.put(url, request)
+  .then(response => Promise.resolve(response))
+  .catch(error => Promise.reject(error));
+};
 
-    endpoints.getOne = ({ id }) => axios.get(`${resourceURL}/${id}`);
+export default{
+  getAllTodo,
+  postTodo,
+  deleteTodo,
+  putTodo,
+};
 
-    endpoints.create = toCreate => axios.post(resourceURL, toCreate);
+// const getAll = () => axios.get(url);
+// const update = toUpdate => axios.put(url, toUpdate);
+// const create = toCreate => axios.create(url, toCreate);
 
-    endpoints.update = toUpdate => axios.put(`${resourceURL}/${toUpdate.id}`, toUpdate);
-
-    endpoints.delete = ({ id }) => axios.delete(`${resourceURL}/${id}`);
-
-    return endpoints;
-  }
-
-}
-
-export default API;
+// export default {
+//   posts(url) {
+//     return {
+//       getAll: () => axios.get(url),
+//       update: toUpdate => axios.put(url, toUpdate),
+//       create: toCreate => axios.put(url, toCreate),
+//       delete: ({ id }) => axios.delete(`${url}/${id}`),
+//     };
+//   },
+// };
