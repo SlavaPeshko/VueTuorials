@@ -8,11 +8,11 @@
         <div class='ui form'>
           <div class='field'>
             <label>UserId</label>
-            <input v-model="userIdText" type='text' ref='title' defaultValue="">
+            <input v-model="userId" type='text' ref='title' defaultValue="">
           </div>
           <div class='field'>
             <label>Project</label>
-            <input v-model="completedText" type='text' ref='completed' defaultValue="">
+            <input v-model="titleText" type='text' ref='completed' defaultValue="">
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -29,13 +29,19 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      userIdText: '',
-      completedText: '',
+      userId: '',
+      titleText: '',
       isCreating: false,
     };
+  },
+  computed: {
+    newTodo() {
+      return this.$store.getters.newTodo;
+    },
   },
   methods: {
     openForm() {
@@ -45,17 +51,9 @@ export default {
       this.isCreating = false;
     },
     sendForm() {
-      if (this.userIdText.length > 0 && this.completedText.length > 0) {
-        const userId = this.userIdText;
-        const title = this.completedText;
-        this.$emit('add-todo', {
-          userId,
-          title,
-          done: false,
-        });
-        this.userIdText = '';
-        this.completedText = '';
-      }
+      this.$store.dispatch('createTodo', { userId: this.userId, title: this.titleText });
+      this.userId = '';
+      this.titleText = '';
       this.isCreating = false;
     },
   },

@@ -24,9 +24,15 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'linebreak-style':0,
+    'arrow-parens':["warn", "always"],
+    'no-console':"warn",
+    'no-unused-vars':"warn",
     "no-shadow": "off",
     "no-param-reassign": 0,
     "linebreak-style": 0,
+    "object-shorthand": ["error", "always"],
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',

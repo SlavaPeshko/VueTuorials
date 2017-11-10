@@ -11,7 +11,7 @@
           <span class='right floated edit icon' v-on:click="showForm">
           <i class='edit icon'></i>
         </span>
-        <span class='right floated trash icon' v-on:click="deleteTodo(todo)">
+        <span class='right floated trash icon' v-on:click="deleteTodo(todo.id)">
         <i class='trash icon'></i>
         </span>
       </div>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+
 export default {
   props: ['todo'],
   data() {
@@ -51,11 +52,11 @@ export default {
     };
   },
   methods: {
-    completeTodo(todo) {
-      this.$emit('complete-todo', todo);
+    deleteTodo(id) {
+      this.$store.dispatch('deleteTodo', id);
     },
-    deleteTodo(todo) {
-      this.$emit('delete-todo', todo);
+    completeTodo(todo) {
+      this.$store.dispatch('completeTodo', todo);
     },
     showForm() {
       this.isEditing = true;
