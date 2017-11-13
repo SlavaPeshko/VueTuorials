@@ -2,7 +2,7 @@
   <div class='ui centered card'>
     <div class="content" v-show="!isEditing">
       <div class='header'>
-          {{ todo.userId }}
+          {{ todo.id }}
       </div>
       <div class='meta'>
           {{ todo.title }}
@@ -19,15 +19,15 @@
     <div class="content" v-show="isEditing">
       <div class='ui form'>
         <div class='field'>
-          <label>UserId</label>
-          <input type='text' v-model="todo.userId" >
+          <label>Id</label>
+          <input type='text' v-model="todo.id" >
         </div>
         <div class='field'>
           <label>Project</label>
           <input type='text' v-model="todo.title" >
         </div>
         <div class='ui two button attached buttons'>
-          <button class='ui basic blue button' v-on:click="hideForm">
+          <button class='ui basic blue button' v-on:click="editTodo">
             Close X
           </button>
         </div>
@@ -52,17 +52,18 @@ export default {
     };
   },
   methods: {
-    deleteTodo(id) {
-      this.$store.dispatch('deleteTodo', id);
+    deleteTodo(todo) {
+      this.$store.dispatch('deleteTodo', todo);
     },
     completeTodo(todo) {
       this.$store.dispatch('completeTodo', todo);
     },
+    editTodo() {
+      this.$store.dispatch('editTodo', { id: this.todo.id, title: this.todo.title });
+      this.isEditing = false;
+    },
     showForm() {
       this.isEditing = true;
-    },
-    hideForm() {
-      this.isEditing = false;
     },
   },
 };

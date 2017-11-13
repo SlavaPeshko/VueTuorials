@@ -8,14 +8,14 @@
         <div class='ui form'>
           <div class='field'>
             <label>UserId</label>
-            <input v-model="userId" type='text' ref='title' defaultValue="">
+            <input v-model="idText" type='text' ref='title' defaultValue="">
           </div>
           <div class='field'>
             <label>Project</label>
             <input v-model="titleText" type='text' ref='completed' defaultValue="">
           </div>
           <div class='ui two button attached buttons'>
-            <button class='ui basic blue button' v-on:click="sendForm()">
+            <button class='ui basic blue button' v-on:click="createTodo()">
               Create
             </button>
             <button class='ui basic red button' v-on:click="closeForm">
@@ -33,15 +33,10 @@
 export default {
   data() {
     return {
-      userId: '',
+      idText: '',
       titleText: '',
       isCreating: false,
     };
-  },
-  computed: {
-    newTodo() {
-      return this.$store.getters.newTodo;
-    },
   },
   methods: {
     openForm() {
@@ -50,9 +45,9 @@ export default {
     closeForm() {
       this.isCreating = false;
     },
-    sendForm() {
-      this.$store.dispatch('createTodo', { userId: this.userId, title: this.titleText });
-      this.userId = '';
+    createTodo() {
+      this.$store.dispatch('createTodo', { id: this.idText, title: this.titleText });
+      this.idText = '';
       this.titleText = '';
       this.isCreating = false;
     },
