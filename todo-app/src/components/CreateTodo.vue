@@ -7,11 +7,11 @@
       <div class='content'>
         <div class='ui form'>
           <div class='field'>
-            <label>UserId</label>
-            <input v-model="idText" type='text' ref='title' defaultValue="">
+            <label>Project</label>
+            <input v-model="projectText" type='text' ref='title' defaultValue="">
           </div>
           <div class='field'>
-            <label>Project</label>
+            <label>Title</label>
             <input v-model="titleText" type='text' ref='completed' defaultValue="">
           </div>
           <div class='ui two button attached buttons'>
@@ -33,7 +33,7 @@
 export default {
   data() {
     return {
-      idText: '',
+      projectText: '',
       titleText: '',
       isCreating: false,
     };
@@ -46,8 +46,14 @@ export default {
       this.isCreating = false;
     },
     createTodo() {
-      this.$store.dispatch('createTodo', { id: this.idText, title: this.titleText });
-      this.idText = '';
+      this.$store.dispatch('createTodo',
+        {
+          userId: 0,
+          project: this.projectText,
+          title: this.titleText,
+          isCompleted: false,
+        });
+      this.projectText = '';
       this.titleText = '';
       this.isCreating = false;
     },

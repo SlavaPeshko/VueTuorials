@@ -1,27 +1,27 @@
 import axios from 'axios';
 
+const url = 'http://localhost:50314/api/todoes';
+
 export default {
   getTodos() {
-    return axios.get('https://jsonplaceholder.typicode.com/todos')
+    return axios.get(`${url}`)
     .then((response) => Promise.resolve(response.data))
-    .catch((error) => Promise.reject(error));
+    .catch((error) => console.log(error));
   },
   deleteTodo(id) {
-    return axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+    return axios.delete(`${url}/${id}`)
     .then((response) => Promise.resolve(response.data))
-    .catch((error) => Promise.reject(error));
+    .catch((error) => console.log(error));
   },
   createTodo(newTodo) {
-    return axios.post('https://jsonplaceholder.typicode.com/todos', {
-      body: newTodo,
-    })
+    return axios.post(`${url}`, newTodo)
     .then((response) => Promise.resolve(response.data))
-    .catch((error) => Promise.reject(error));
+    .catch((error) => console.log(error));
   },
   editTodo(todo) {
-    return axios.put(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, todo)
+    return axios.put(`${url}/${todo.id}`, todo)
     .then((response) => Promise.resolve(response.data))
-    .catch((error) => Promise.reject(error));
+    .catch((error) => console.log(error));
   },
 };
 

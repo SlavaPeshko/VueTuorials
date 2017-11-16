@@ -2,7 +2,7 @@
   <div class='ui centered card'>
     <div class="content" v-show="!isEditing">
       <div class='header'>
-          {{ todo.id }}
+          {{ todo.project }}
       </div>
       <div class='meta'>
           {{ todo.title }}
@@ -19,12 +19,12 @@
     <div class="content" v-show="isEditing">
       <div class='ui form'>
         <div class='field'>
-          <label>Id</label>
-          <input type='text' v-model="todo.id" >
+          <label>Project</label>
+          <input type='text' v-model="editatableTodo.project" >
         </div>
         <div class='field'>
-          <label>Project</label>
-          <input type='text' v-model="todo.title" >
+          <label>Title</label>
+          <input type='text' v-model="editatableTodo.title" >
         </div>
         <div class='ui two button attached buttons'>
           <button class='ui basic blue button' v-on:click="editTodo">
@@ -33,10 +33,10 @@
         </div>
       </div>
     </div>
-    <div class='ui bottom attached green basic button' v-show="!isEditing &&todo.completed" disabled>
+    <div class='ui bottom attached green basic button' v-show="!isEditing &&todo.isCompleted" disabled>
         Completed
     </div>
-    <div class='ui bottom attached red basic button' v-on:click="completeTodo(todo)" v-show="!isEditing && !todo.completed">
+    <div class='ui bottom attached red basic button' v-on:click="completeTodo(editatableTodo)" v-show="!isEditing && !todo.isCompleted">
         Pending
     </div>
   </div>
@@ -49,17 +49,24 @@ export default {
   data() {
     return {
       isEditing: false,
+      editatableTodo: {
+        userId: this.todo.userId,
+        title: this.todo.title,
+        project: this.todo.project,
+        isComplited: this.todo.isComplited,
+      },
     };
   },
   methods: {
-    deleteTodo(todo) {
-      this.$store.dispatch('deleteTodo', todo);
+    deleteTodo(id) {
+      this.$store.dispatch('deleteTodo', id);
     },
     completeTodo(todo) {
       this.$store.dispatch('completeTodo', todo);
     },
     editTodo() {
-      this.$store.dispatch('editTodo', { id: this.todo.id, title: this.todo.title });
+      this.$store.dispatch('editTodo', this.editatableTodo,
+         );
       this.isEditing = false;
     },
     showForm() {

@@ -13,29 +13,21 @@ const store = new Vuex.Store({
     getTodo: ({ commit }) => {
       api.getTodos().then((data) => {
         commit('GET_TODO', data);
-      }, (err) => {
-        console.log(err);
       });
     },
     deleteTodo: ({ commit }, id) => {
-      api.deleteTodo(id).then((data) => {
+      api.deleteTodo(id).then(() => {
         commit('DELETE_TODO', id);
-      }, (error) => {
-        console.log(error);
       });
     },
-    createTodo: ({ commit }, newTodo) => {
-      api.createTodo(newTodo).then((data) => {
-        commit('CREATE_TODO', newTodo);
-      }, (error) => {
-        console.log(error);
+    createTodo: ({ commit }, todo) => {
+      api.createTodo(todo).then((todo) => {
+        commit('CREATE_TODO', todo);
       });
     },
     editTodo: ({ commit }, todo) => {
-      api.editTodo(todo).then((data) => {
+      api.editTodo(todo).then((todo) => {
         commit('EDIT_TODO', todo);
-      }, (error) => {
-        console.log(error);
       });
     },
     showForm: ({ commit }, isEditing) => {
@@ -57,19 +49,24 @@ const store = new Vuex.Store({
       state.todos.push(newTodo);
     },
     EDIT_TODO: (state, todo) => {
-      let newTodo = state.todos.find((todo) => todo.id === todo.id);
-      newTodo = todo;
+      const newTodo = state.todos.find((todo) => todo.id === todo.id);
+      newTodo.userId = todo.userId;
+      newTodo.title = todo.title;
+      newTodo.project = todo.project;
+      newTodo.isCompleted = todo.isCompleted;
+      return newTodo;
     },
     SHOW_FORM: (state, isEditing) => {
       isEditing = true;
+      return isEditing;
     },
     COMPLETE_TODO: (state, todo) => {
-      todo.completed = true;
+      todo.isCompleted = true;
     },
   },
   getters: {
-    completedTask: (state) => state.todos.filter((todo) => todo.completed === true).length,
-    pendingTask: (state) => state.todos.filter((todo) => todo.completed === false).length,
+    completedTask: (state) => state.todos.filter((todo) => todo.isCompleted === true).length,
+    pendingTask: (state) => state.todos.filter((todo) => todo.isCompleted === false).length,
     allTodos: (state) => state.todos,
   },
 });
